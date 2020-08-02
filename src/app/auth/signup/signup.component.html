@@ -7,13 +7,13 @@
   <cq-input
       inputType="password"
       label="Password"
-      [control]="authForm.get('password')"
-  ></cq-input>
+      [control]="authForm.get('password')">
+  </cq-input>
   <cq-input
       inputType="password"
       label="Password Confirmation"
-      [control]="authForm.get('passwordConfirmation')"
-  ></cq-input>
+      [control]="authForm.get('passwordConfirmation')">
+  </cq-input>
 
   <div *ngIf="authForm.get('password').touched &&
    authForm.get('passwordConfirmation').touched &&
@@ -22,6 +22,12 @@
     <p *ngIf="authForm.errors.passwordsDontMatch">
       Password and Password Confirmation must match
     </p>
+    <p *ngIf="authForm.errors.noConnection">
+      No internet connection detected: failed to sign up
+    </p>
+    <p *ngIf="authForm.errors.unknownError">
+      Something went wrong and sign up failed... :/
+    </p>
   </div>
 
   <div>
@@ -29,6 +35,4 @@
       Submit
     </button>
   </div>
-
-  {{ authForm.errors | json }}
 </form>

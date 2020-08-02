@@ -13,8 +13,7 @@ import { AuthService } from '../auth.service';
 })
 export class SignupComponent implements OnInit {
     authForm = new FormGroup({
-            username: new FormControl('',
-                [
+            username: new FormControl('', [
                     Validators.required,
                     Validators.minLength(3),
                     Validators.maxLength(20),
@@ -49,6 +48,15 @@ export class SignupComponent implements OnInit {
             return;
         }
         this.authService.signup(this.authForm.value)
-            .subscribe(response => console.log(response));
+            .subscribe(
+                response => console.log(this),
+                err => {
+                    if (!err.status) {
+                        this.authForm.setErrors({ noConnection: true });
+                    } else {
+                        this.authForm.setErrors({ unknownError: true });
+                    }
+                }
+            );
     }
 }
