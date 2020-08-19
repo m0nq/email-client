@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatchPassword } from '../validators/match-password';
 import { UniqueUsername } from '../validators/unique-username';
 import { AuthService } from '../auth.service';
@@ -12,8 +11,11 @@ import { AuthService } from '../auth.service';
     styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-    authForm = new FormGroup({
-            username: new FormControl('', [
+    authForm = new FormGroup(
+        {
+            username: new FormControl(
+                '',
+                [
                     Validators.required,
                     Validators.minLength(3),
                     Validators.maxLength(20),
@@ -38,25 +40,28 @@ export class SignupComponent implements OnInit {
     constructor(
         private matchPassword: MatchPassword,
         private uniqueUsername: UniqueUsername,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) {}
 
     ngOnInit() {}
 
-    public onSubmit(): void {
+    onSubmit() {
         if (this.authForm.invalid) {
             return;
         }
-        this.authService.signup(this.authForm.value)
-            .subscribe(
-                response => console.log(this),
-                err => {
-                    if (!err.status) {
-                        this.authForm.setErrors({ noConnection: true });
-                    } else {
-                        this.authForm.setErrors({ unknownError: true });
-                    }
+
+        this.authService.signup(this.authForm.value).subscribe({
+            next: response => {
+                this.router.navigateByUrl('/inbox');
+            },
+            error: err => {
+                if (!err.status) {
+                    this.authForm.setErrors({ noConnection: true });
+                } else {
+                    this.authForm.setErrors({ unknownError: true });
                 }
-            );
+            }
+        });
     }
 }

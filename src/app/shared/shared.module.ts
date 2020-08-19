@@ -5,7 +5,10 @@ import { InputComponent } from './input/input.component';
 
 @NgModule({
     declarations: [InputComponent],
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule
+    ],
     exports: [InputComponent]
 })
 export class SharedModule {}

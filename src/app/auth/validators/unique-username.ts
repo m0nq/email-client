@@ -14,16 +14,19 @@ export class UniqueUsername implements AsyncValidator {
     validate = (control: FormControl) => {
         const { value: username } = control;
 
-        return this.authService.usernameAvailable(username)
-            .pipe(
-                map(value => {
-                    if (value.available) {
-                        return null;
-                    }
-                }),
-                catchError(err => {
-                    return err.error.username ? of({ nonUniqueUsername: true }) : of({ noConnection: true });
-                })
-            );
+        return this.authService.usernameAvailable(username).pipe(
+            map(value => {
+                if (value.available) {
+                    return null;
+                }
+            }),
+            catchError(err => {
+                if (err.error.username) {
+                    return of({ nonUniqueUsername: true });
+                } else {
+                    return of({ noConnection: true });
+                }
+            })
+        );
     };
 }

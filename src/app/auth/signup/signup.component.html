@@ -1,6 +1,7 @@
-<link rel="stylesheet" href="signup.component.css"><h3>Create an Account</h3>
+<h3>Create an Account</h3>
 <form (ngSubmit)="onSubmit()" class="ui form" [formGroup]="authForm">
-  <cq-input inputType="text"
+  <cq-input
+      inputType="text"
       label="Username"
       [control]="authForm.get('username')">
   </cq-input>
@@ -16,17 +17,17 @@
   </cq-input>
 
   <div *ngIf="authForm.get('password').touched &&
-   authForm.get('passwordConfirmation').touched &&
-    authForm.errors"
+      authForm.get('passwordConfirmation').touched &&
+      authForm.errors"
       class="ui red basic label">
     <p *ngIf="authForm.errors.passwordsDontMatch">
       Password and Password Confirmation must match
     </p>
     <p *ngIf="authForm.errors.noConnection">
-      No internet connection detected: failed to sign up
+      No internet connection detected, failed to sign up
     </p>
     <p *ngIf="authForm.errors.unknownError">
-      Something went wrong and sign up failed... :/
+      Failed to sign up
     </p>
   </div>
 
