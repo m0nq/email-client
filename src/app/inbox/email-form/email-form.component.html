@@ -1,0 +1,17 @@
+<form class="ui form" [formGroup]="emailForm">
+  <cq-input [control]="emailForm.get('to')" inputType="email" label="To">
+  </cq-input>
+
+  <cq-input [control]="emailForm.get('from')" inputType="email" label="From">
+  </cq-input>
+
+  <cq-input [control]="emailForm.get('subject')"
+      inputType="text"
+      label="Subject">
+  </cq-input>
+
+  <cq-input [control]="emailForm.get('text')" inputType="text" label="Content">
+  </cq-input>
+
+  <button class="ui button primary">Send</button>
+</form>

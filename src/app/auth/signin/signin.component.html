@@ -1,12 +1,11 @@
 <h3>Sign In</h3>
 <form (ngSubmit)="onSubmit()" class="ui form" [formGroup]="authForm">
-  <cq-input
-      inputType="text"
+  <cq-input inputType="text"
       label="Username"
       [control]="authForm.get('username')">
   </cq-input>
-  <cq-input
-      inputType="password"
+
+  <cq-input inputType="password"
       label="Password"
       [control]="authForm.get('password')">
   </cq-input>

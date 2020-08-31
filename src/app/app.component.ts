@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cq-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'cq-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  signedin$: BehaviorSubject<boolean>;
+export class AppComponent implements OnInit {
+    signedin$: BehaviorSubject<boolean>;
 
-  constructor(private authService: AuthService) {
-    this.signedin$ = this.authService.signedin$;
-  }
+    constructor(private authService: AuthService) {
+        this.signedin$ = this.authService.signedIn$;
+    }
 
-  ngOnInit() {
-    this.authService.checkAuth().subscribe(() => {});
-  }
+    ngOnInit() {
+        this.authService.checkAuth().subscribe(() => {});
+    }
 }

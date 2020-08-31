@@ -11,22 +11,22 @@ import { AuthService } from '../auth.service';
 export class UniqueUsername implements AsyncValidator {
     constructor(private authService: AuthService) {}
 
-    validate = (control: FormControl) => {
+    validate(control: FormControl) {
         const { value: username } = control;
-
-        return this.authService.usernameAvailable(username).pipe(
-            map(value => {
-                if (value.available) {
-                    return null;
-                }
-            }),
-            catchError(err => {
-                if (err.error.username) {
-                    return of({ nonUniqueUsername: true });
-                } else {
-                    return of({ noConnection: true });
-                }
-            })
-        );
-    };
+        return this.authService.usernameAvailable(username)
+            .pipe(
+                map(value => {
+                    if (value.available) {
+                        return null;
+                    }
+                }),
+                catchError(err => {
+                    if (err.error.username) {
+                        return of({ nonUniqueUsername: true });
+                    } else {
+                        return of({ noConnection: true });
+                    }
+                })
+            );
+    }
 }

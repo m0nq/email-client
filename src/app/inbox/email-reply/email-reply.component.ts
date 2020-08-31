@@ -11,5 +11,4 @@ export class EmailReplyComponent implements OnInit {
 
     ngOnInit() {
     }
-
 }

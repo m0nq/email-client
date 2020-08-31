@@ -5,7 +5,6 @@ import { Validator, FormGroup } from '@angular/forms';
 export class MatchPassword implements Validator {
     validate(formGroup: FormGroup) {
         const { password, passwordConfirmation } = formGroup.value;
-
         return password === passwordConfirmation ? null : { passwordsDontMatch: true };
     }
 }
