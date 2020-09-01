@@ -17,14 +17,18 @@ interface SignupResponse {
     username: string;
 }
 
-interface SignedinResponse {
+interface SignedInResponse {
     authenticated: boolean;
     username: string;
 }
 
-interface SigninCredentials {
+interface SignInCredentials {
     username: string;
     password: string;
+}
+
+interface SignInResponse {
+    username: string;
 }
 
 @Injectable({
@@ -33,6 +37,7 @@ interface SigninCredentials {
 export class AuthService {
     rootUrl = 'https://api.angular-email.com/auth';
     signedIn$ = new BehaviorSubject(null);
+    username = '';
 
     constructor(private http: HttpClient) {}
 
@@ -47,17 +52,19 @@ export class AuthService {
     signup(credentials: SignupCredentials) {
         return this.http.post<SignupResponse>(`${this.rootUrl}/signup`, credentials)
             .pipe(
-                tap(() => {
+                tap(({ username }) => {
                     this.signedIn$.next(true);
+                    this.username = username;
                 })
             );
     }
 
     checkAuth() {
-        return this.http.get<SignedinResponse>(`${this.rootUrl}/signedin`)
+        return this.http.get<SignedInResponse>(`${this.rootUrl}/signedin`)
             .pipe(
-                tap(({ authenticated }) => {
+                tap(({ authenticated, username }) => {
                     this.signedIn$.next(authenticated);
+                    this.username = username;
                 })
             );
     }
@@ -71,11 +78,13 @@ export class AuthService {
             );
     }
 
-    signIn(credentials: SigninCredentials) {
-        return this.http.post(`${this.rootUrl}/signin`, credentials).pipe(
-            tap(() => {
-                this.signedIn$.next(true);
-            })
-        );
+    signIn(credentials: SignInCredentials) {
+        return this.http.post<SignedInResponse>(`${this.rootUrl}/signin`, credentials)
+            .pipe(
+                tap(({ username }) => {
+                    this.signedIn$.next(true);
+                    this.username = username;
+                })
+            );
     }
 }

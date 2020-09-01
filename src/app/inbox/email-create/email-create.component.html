@@ -4,5 +4,6 @@
 
 <cq-modal (dismiss)="showModal = false" *ngIf="showModal">
   <div modalTitle>Compose</div>
-  <cq-email-form [email]="email"></cq-email-form>
+  <cq-email-form (emailSubmit)="onSubmit($event)" [email]="email">
+  </cq-email-form>
 </cq-modal>
